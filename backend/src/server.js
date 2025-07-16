@@ -10,7 +10,7 @@ import { connectDB } from "./config/db.js";
 
 // Load environment variables from a .env file
 import dotenv from "dotenv";
-import rateLimiter from "./middleware/ratelimiter.js";
+import rateLimiter from "./middleware/rateLimiter.js";
 // Initialize dotenv configuration
 dotenv.config();
 
@@ -30,13 +30,6 @@ app.use(cors({
 app.use(express.json()); // Allows Express to read JSON bodies (important for POST/PUT)
 
 app.use(rateLimiter);
-    
-// Custom middleware to log each request method and path
-// app.use((req, res, next) => {
-//   console.log(`${req.method} ${req.url}`); // Logs GET /api/notes, POST /api/notes, etc.
-//   next(); // Pass control to the next middleware or route handler
-// });
-
 // Mount the notes routes on the /api/notes path
 app.use("/api/notes", notesRoutes); // Example route: GET /api/notes/
 
