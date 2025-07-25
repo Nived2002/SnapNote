@@ -1,50 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { Loader2 } from "lucide-react";
+import React, { useState, useEffect } from "react";
 
-const StartupAnimation = ({ onFinish }) => {
-  const [animateOut, setAnimateOut] = useState(false);
+const StartupAnimation = ({ fadeOut }) => {
   const [animateIn, setAnimateIn] = useState(false);
 
   useEffect(() => {
-    // Trigger fade-in on mount (starts blurred+invisible, ends visible+clear)
-    const timerIn = setTimeout(() => setAnimateIn(true), 10); // tiny delay to trigger CSS transition
-
-    // After 1 second, start fade-out + blur
-    const timerOut = setTimeout(() => setAnimateOut(true), 1000);
-
-    // After 2 seconds, finish animation
-    const timerFinish = setTimeout(() => onFinish(), 2000);
-
-    return () => {
-      clearTimeout(timerIn);
-      clearTimeout(timerOut);
-      clearTimeout(timerFinish);
-    };
-  }, [onFinish]);
+    const timer = setTimeout(() => setAnimateIn(true), 10);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div
       className={`
-        fixed inset-0 border-[#74e63c] flex flex-col items-center justify-center
-        transition-all duration-1000
-        ${animateIn ? "opacity-100 blur-0" : "opacity-0 blur-sm"}
-        ${animateOut ? "opacity-0 blur-sm" : ""}
+        fixed inset-0 z-50 flex flex-col items-center justify-center
+        transition-opacity duration-700 ease-in-out
+        ${fadeOut ? "opacity-0" : "opacity-100"}
+        bg-opacity-40 backdrop-blur-sm
       `}
-      style={{ zIndex: 9999 }}
     >
       <h1
         className={`
-          text-6xl font-extrabold text-primary mb-6 select-none
+          text-6xl font-extrabold text-primary select-none mb-8
           transition-transform duration-1000
-          ${animateOut ? "scale-75" : "scale-110"}
+          ${animateIn ? "scale-110" : "scale-90"}
+          animate-pulse
         `}
       >
         SnapNote
       </h1>
-      <div className="flex items-center space-x-3">
-        <Loader2 className="w-8 h-8 text-primary animate-spin" />
-        <span className="text-primary font-semibold text-lg select-none">
-          Loading...
+
+      <div className="flex flex-col items-center space-y-4">
+        <span className="inline-block w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin-slow" />
+        <span className="text-primary font-semibold text-lg select-none tracking-wide">
+          Getting things ready...
         </span>
       </div>
     </div>

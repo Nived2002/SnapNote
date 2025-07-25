@@ -7,10 +7,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        'spin-slow': 'spin 1.2s linear infinite',
+      },
+    },
   },
   plugins: [daisyui],
   daisyui: {
-    themes: ['forest','coffee']
-  }
-}
+    themes: ['forest', 'coffee'],
+  },
+};
